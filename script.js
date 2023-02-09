@@ -1,30 +1,23 @@
-function generateDomains() {
-  let countryCode = document.getElementById("country-code").value;
-  let niche = document.getElementById("niche").value;
-  let tld = document.getElementById("tld").value;
-  let cities = getCities(countryCode);
-  let domains = [];
-  for (let i = 0; i < cities.length; i++) {
-    domains.push(niche + "." + cities[i].toLowerCase().replace(/\s+/g, "") + "." + tld);
+const countrySelect = document.getElementById("country-select");
+const cityList = document.getElementById("city-list");
+const generateButton = document.getElementById("generate-button");
+const tldInput = document.getElementById("tld-input");
+const nicheInput = document.getElementById("niche-input");
+const resultList = document.getElementById("result-list");
+
+generateButton.addEventListener("click", function() {
+  resultList.innerHTML = "";
+
+  const selectedCountry = countrySelect.value;
+  const tld = tldInput.value;
+  const niche = nicheInput.value;
+
+  const cities = cityList.value.split("\n");
+
+  for (const city of cities) {
+    const domain = `${niche}${city.toLowerCase().replace(/\s/g, '')}.${tld}`;
+    const li = document.createElement("li");
+    li.innerText = domain;
+    resultList.appendChild(li);
   }
-  displayDomains(domains);
-}
-
-function getCities(countryCode) {
-  let cities = [
-    // Add the list of cities for the specified country here
-  ];
-  return cities;
-}
-
-function displayDomains(domains) {
-  let domainsList = document.getElementById("domains");
-  domainsList.innerHTML = "";
-  for (let i = 0; i < domains.length; i++) {
-    let li = document.createElement("li");
-    li.textContent = domains[i];
-    domainsList.appendChild(li);
-  }
-}
-
-document.getElementById("generate-button").addEventListener("click", generateDomains);
+});
